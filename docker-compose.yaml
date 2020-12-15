@@ -3,12 +3,16 @@ services:
   # HomeAssistant
   homeassistant:
     container_name: home-assistant
-    image: homeassistant/home-assistant
+    image: homeassistant/home-assistant:stable
     volumes:
       # Local path where your home assistant config will be stored
-      - ./data-ha:/config
+      - ./data-ha/config:/config
+      - ./data-ha/config/docker/run:/etc/services.d/home-assistant/run # S6-Overlay
     environment:
       - TZ=Europe/London
+      - PUID=1000 # https://github.com/tribut/homeassistant-docker-venv#home-assistant-using-venv-in-docker
+      - PGID=1000
+      - UMASK=007
     restart: unless-stopped
     network_mode: host
     depends_on:
