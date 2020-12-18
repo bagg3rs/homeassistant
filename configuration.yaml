@@ -1,0 +1,11 @@
+# Home Assistant Main Configuration File
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret lat
+  longitude: !secret long
+  elevation: 63
+  unit_system: metric
+  time_zone: !secret time_zone
+  

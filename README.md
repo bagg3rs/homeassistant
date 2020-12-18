@@ -1,2 +1,3 @@
-### Home Assistant Docker Compose
-Infra for home assistant using docker compose
+### Home Assistant Configuration
+
+- redo my ha config as its  spaghetti
