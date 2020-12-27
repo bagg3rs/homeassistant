@@ -9,4 +9,37 @@ tts:
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
-scene: !include scenes.yaml
+scene: !inclugit sde scenes.yaml
+# Home Assistant Main Configuration File
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret lat
+  longitude: !secret long
+  elevation: 63
+  unit_system: metric
+  time_zone: !secret time_zone
+
+#https://home-assistant.io/components/recorder/
+recorder:
+  purge_keep_days: 3
+  db_url: !secret db_url
+
+# https://www.home-assistant.io/integrations/prometheus/
+prometheus:
+  namespace: hass
+  # component_config_glob:
+  #   sensor.*_hum:
+  #     override_metric: humidity_percent
+  #   sensor.*_temp:
+  #     override_metric: temperature_c
+  #   sensor.temperature*:
+  #     override_metric: temperature_c
+  #   sensor.*_bat:
+  #     override_metric: battery_percent
+  # filter:
+  #   include_domains:
+  #     - sensor
+  #   exclude_entity_globs:
+  #     - sensor.weather_*

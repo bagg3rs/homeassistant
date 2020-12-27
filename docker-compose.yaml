@@ -1,0 +1,52 @@
+version: '3'
+services:
+  # HomeAssistant
+  homeassistant:
+    container_name: home-assistant
+    image: homeassistant/home-assistant:stable
+    volumes:
+      # Local path where your home assistant config will be stored
+      - ./data-ha/config:/config
+      - ./data-ha/config/docker/run:/etc/services.d/home-assistant/run # S6-Overlay
+    environment:
+      - TZ=Europe/London
+      - PUID=1000 # https://github.com/tribut/homeassistant-docker-venv#home-assistant-using-venv-in-docker
+      - PGID=1000
+      - UMASK=007
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+      - postgres-ha
+    user: "${LOCAL_USER}:${LOCAL_USER}"
+
+  postgres-ha:
+      container_name: postgres-ha
+      image: postgres
+      ports:
+        - "5432:5432"
+      volumes:
+        - ./data-postgres-ha:/var/lib/postgresql/data
+      environment:
+        - POSTGRES_DB=‘${POSTGRES_DB}’
+        - POSTGRES_USER=‘${POSTGRES_USER}’
+        - POSTGRES_PASSWORD=‘${POSTGRES_PASSWORD}’
+      deploy:
+        resources:
+          limits:
+            memory: 250M
+
+  # Node-RED https://github.com/node-red/node-red-docker#docker-stack--docker-compose
+  nodered:
+    container_name: nodered
+    image: nodered/node-red
+    ports:
+      - "1880:1880"
+    volumes:
+      # The node-red/data directory must exist prior to starting the container.
+      - ./data-nodered:/data
+    depends_on:
+      - homeassistant
+    environment:
+      TZ: "Europe/London"
+    user: "${LOCAL_USER}:${LOCAL_USER}"
+    restart: unless-stopped
