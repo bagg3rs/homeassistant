@@ -1,15 +1,3 @@
-
-# Configure a default setup of Home Assistant (frontend, api, etc)
-default_config:
-
-# Text to speech
-tts:
-  - platform: google_translate
-
-group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !inclugit sde scenes.yaml
 # Home Assistant Main Configuration File
 homeassistant:
   # Name of the location where Home Assistant is running
@@ -20,7 +8,7 @@ homeassistant:
   elevation: 63
   unit_system: metric
   time_zone: !secret time_zone
-
+frontend:
 #https://home-assistant.io/components/recorder/
 recorder:
   purge_keep_days: 3
@@ -43,3 +31,20 @@ prometheus:
   #     - sensor
   #   exclude_entity_globs:
   #     - sensor.weather_*
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+switch: !include switch.yaml
+
+#Broadlink RM Pro infra red https://www.home-assistant.io/integrations/broadlink/
+remote:
+  - platform: broadlink
+    host: !secret broadlink_hostip
+    mac: !secret broadlink_mac
+    name: broadlink_livingroom
