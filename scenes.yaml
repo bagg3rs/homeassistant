@@ -1,0 +1,21 @@
+# Scenes for lights https://www.home-assistant.io/integrations/scene/
+- name: Livingroom normal
+  entities:
+    light.living_room:
+      state: "on"
+      transition: 2
+      brightness_pct: 60
+    light.kitchen_lights:
+      state: "on"
+      transition: 2
+      brightness_pct: 85
+- name: Livingroom dim
+  entities:
+    light.living_room:
+      state: "on"
+      transition: 2
+      brightness_pct: 30
+    light.kitchen_lights:
+      state: "on"
+      transition: 2
+      brightness_pct: 55

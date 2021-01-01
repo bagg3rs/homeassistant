@@ -2,43 +2,43 @@
   host: !secret broadlink_hostip #living_room
   mac: !secret broadlink_mac
   switches:
-    # https://www.brio.net/products/all-products/railway/trains-wagon--vehicles/remote-control-engine
     # Infra Red Codes learned from BRIO IR 102 railway engine
-    # Channel A
-    locamotive_horn_ch_a:
-      friendly_name: "Locomotive horn channel a"
+    # https://www.brio.net/products/all-products/railway/trains-wagon--vehicles/remote-control-engine
+    # Channel A switch enabled
+    train_a_horn:
+      friendly_name: "train a horn"
       command_on: "JgAoAMkOMBMULzEUETEwExQvMRQzAAU9yA4xEhA0MBIQNDESEDMxEjMADQU="
-    locamotive_lights_ch_a:
-      friendly_name: "Locomotive lights channel a"
+    train_a_lights:
+      friendly_name: "train a lights"
       command_on: "JgAoAMgONRARMTIRFC8ULzMSMw8yAAU+yBEzEA4zMxEULw80NQ4yEjQADQU="
-    locamotive_forward1x_ch_a:
-      friendly_name: "Locomotive forward 1x channel a"
+    train_a_go:
+      friendly_name: "train a go"
       command_on: "JgAoAMgOMxEULzITDjMzETQQEDIRAAVgyA4yEg80MhERMjIRMhMONBMADQU="
-    locamotive_forward2x_ch_a:
-      friendly_name: "Locomotive forward 2x channel a"
+    train_a_fast:
+      friendly_name: "train a fast"
       command_on: "JgAoAMgQMw8ULzMSETExEjMRMxEQAAVdyQ8zDxQwNBARMTQPNBExEhAADQU="
-    locamotive_reverse_ch_a:
-      friendly_name: "Locomotive reverse channel a"
+    train_a_reverse:
+      friendly_name: "train a reverse"
       command_on: "JgAoAMcQMhERMjESEjIwEjMREjExAAVBxhEwExAzMBMTMTATMBMQMzIADQU="
-    locamotive_stop_ch_a:
-      friendly_name: "Locomotive stop channel a"
+    train_a_stop:
+      friendly_name: "train a stop"
       command_on: "JgAoAMcRMxEQMTETEzAzEjMOMRQzAAU7xxIzDhIxMRQRMTQPMhE1EDMADQU="
-    # Channel B
-    locamotive_horn_ch_b:
-      friendly_name: "Locomotive horn channel b"
+    # Channel B switch enabled, if only one train you can add both codes to be sent on send.
+    train_b_horn:
+      friendly_name: "train b horn"
       command_on: "JgAUAMYRETIzEBIxMxEzEBIxMhEzAA0FAAAAAA=="
-    locamotive_lights_ch_b:
-      friendly_name: "Locomotive lights channel b"
+    train_b_lights:
+      friendly_name: "train b lights"
       command_on: "JgAUAMcQEjEyERMxMxASMTIRMxIyAA0FAAAAAA=="
-    locamotive_forward1x_ch_b:
-      friendly_name: "Locomotive forward 1x channel b"
+    train_b_go:
+      friendly_name: "train b go"
       command_on: "JgAUAMcQEjEzEBEyMxAzETMQETISAA0FAAAAAA=="
-    locamotive_forward2x_ch_b:
-      friendly_name: "Locomotive forward 2x channel b"
+    train_b_fast:
+      friendly_name: "train b fast"
       command_on: "JgAUAMcPEzEzEQ40MxAzEDMRMxASAA0FAAAAAA=="
-    locamotive_reverse_ch_b:
-      friendly_name: "Locomotive reverse channel b"
+    train_b_reverse:
+      friendly_name: "train b reverse"
       command_on: "JgAUAMcPEzEzEBIxNA8zETMQEjE0AA0FAAAAAA=="
-    locamotive_stop_ch_b:
-      friendly_name: "Locomotive stop channel b"
+    train_b_stop:
+      friendly_name: "train b stop"
       command_on: "JgAUAMgPEjE0ERExMxAxEjQRMhEzAA0FAAAAAA=="
