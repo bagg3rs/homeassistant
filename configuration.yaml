@@ -10,9 +10,11 @@ homeassistant:
   time_zone: !secret time_zone
 frontend:
 config:
+logbook:
 cloud: # https://www.home-assistant.io/integrations/cloud/
 mobile_app: # https://www.home-assistant.io/integrations/mobile_app/
 #https://home-assistant.io/components/recorder/
+history:
 recorder:
   purge_keep_days: 3
   db_url: !secret db_url
@@ -36,12 +38,12 @@ prometheus:
   #     - sensor.weather_*
 # InfluxDB Addon
 influxdb:
-  host: a0d7b954_influxdb
+  host: hassio.onelumen.co.uk
   port: 8086
   database: homeassistant
   username: homeassistant
   password: !secret influxdb_pw
-  max_retries: 3
+  max_retries: 5
   default_measurement: state
 
 # Text to speech
@@ -65,3 +67,99 @@ remote:
 webostv:
   name: Living Room TV
   host: !secret ip_vlan100_121
+
+light:
+  - platform: flux_led
+    devices:
+      192.168.0.189:
+        name: flux_playarea
+      192.168.0.184:
+        name: flux_fireplace
+
+tplink:
+  discovery: false
+  switch:
+    - host: !secret ip_vlan100_110
+    - host: !secret ip_vlan100_111
+    - host: !secret ip_vlan100_112
+# Nest
+nest:
+  client_id: !secret api_user_nest
+  client_secret: !secret api_sec_nest
+
+# Ping Cloudflare
+binary_sensor:
+  - platform: ping
+    host: 1.1.1.1
+    scan_interval: 5
+    name: "The Internet"
+
+###########################################################
+# Media Players
+############################################################
+media_player:
+  #Sony TV
+  - platform: braviatv
+    host: !secret ip_vlan100_166
+    name: Sony TV Bedroom
+
+  #VirginTV
+  - platform: virgintivo
+    default_is_show: false
+    #show_packages: Free-to-air,Player,Mix,Fun,Full House,Premium,Pay-per-view
+    show_packages: Free-to-air
+    scan_interval: 7
+    # default_is_hd: true
+    tivos:
+      1:
+        name: Virgin TV Box
+        host: !secret ip_vlan100_205
+    guide:
+      picture_refresh: 30
+    channels:
+      101:
+        name: BBC One
+        show: true
+        hd_channel: 108
+      102:
+        name: BBC Two
+        show: true
+        hd_channel: 162
+      103:
+        name: ITV
+        show: true
+        hd_channel: 113
+        plus_one: 114
+      104:
+        name: Channel 4
+        show: true
+        hd_channel: 141
+        plus_one: 142
+      141:
+        name: Channel 4 HD
+        show: true
+        hd_channel: 141
+      105:
+        name: Channel 5
+        show: true
+        hd_channel: 150
+        plus_one: 155
+      106:
+        name: E4
+        show: true
+        hd_channel: 145
+        plus_one: 146
+      107:
+        name: BBC Four
+        hd_channel: 163
+      108:
+        name: BBC One HD
+
+# Speedtest https://www.home-assistant.io/components/sensor.speedtest
+speedtestdotnet:
+  scan_interval:
+    minutes: 240
+  monitored_conditions:
+    - ping
+    - download
+    - upload
