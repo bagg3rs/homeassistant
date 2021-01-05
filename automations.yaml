@@ -1,1 +1,11 @@
-[]
+- id: '1609768093786'
+  alias: create all light group on ha start
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: script.create_all_light_group
+    data: {}
+  mode: single

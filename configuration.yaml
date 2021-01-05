@@ -13,11 +13,13 @@ config:
 logbook:
 cloud: # https://www.home-assistant.io/integrations/cloud/
 mobile_app: # https://www.home-assistant.io/integrations/mobile_app/
-#https://home-assistant.io/components/recorder/
-history:
-recorder:
+history: #https://home-assistant.io/components/history/
+recorder: #https://home-assistant.io/components/recorder/
   purge_keep_days: 3
   db_url: !secret db_url
+system_health:
+person:
+default_config:
 
 # https://www.home-assistant.io/integrations/prometheus/
 prometheus:
@@ -38,7 +40,7 @@ prometheus:
   #     - sensor.weather_*
 # InfluxDB Addon
 influxdb:
-  host: hassio.onelumen.co.uk
+  host: !secret hassio_hostname
   port: 8086
   database: homeassistant
   username: homeassistant
@@ -55,6 +57,7 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 switch: !include switch.yaml
+sensor: !include sensors.yaml
 
 #Broadlink RM Pro infra red https://www.home-assistant.io/integrations/broadlink/
 remote:
@@ -75,6 +78,43 @@ light:
         name: flux_playarea
       192.168.0.184:
         name: flux_fireplace
+
+  # - platform: group
+  #   name: Kitchen lights
+  #   entities:
+  #     - light.kitchen_island
+  #     - light.kitchen_lights
+
+  # - platform: group
+  #   name: Living room lights
+  #   entities:
+  #     - light.living_room_corner
+  #     - light.living_room_side
+
+  # - platform: group
+  #   name: Hallway lights
+  #   entities:
+  #     - light.hallway
+  #     - light.hallway_1
+  #     - light.hallway_2
+  #     - light.hallway_3
+  #     - light.hallway_4
+  #     - light.hallway_5
+  #     - light.hallway_6
+  #     - light.hallway_7
+  #     - light.hallway_far
+
+  # - platform: group
+  #   name: Kitchen Lights
+  #   entities:
+  #     - light.kitchen_island
+  #     - light.kitchen_lights
+
+  # - platform: group
+  #   name: Garden Lights
+  #   entities:
+  #     - light.garden_left
+  #     - light.garden_right
 
 tplink:
   discovery: false
