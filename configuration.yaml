@@ -203,3 +203,12 @@ speedtestdotnet:
     - ping
     - download
     - upload
+
+mqtt:
+  discovery: true
+  birth_message:
+    topic: "hass/status"
+    payload: "online"
+  will_message:
+    topic: "hass/status"
+    payload: "offline"
