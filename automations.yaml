@@ -9,3 +9,191 @@
   - service: script.create_all_light_group
     data: {}
   mode: single
+- alias: Set dishwasher active when power detected
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.switch_dishwasher_watts
+    above: 10
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.dishwasher_status
+      state: Dirty
+    - condition: state
+      entity_id: input_select.dishwasher_status
+      state: Clean
+    - condition: state
+      entity_id: input_select.dishwasher_status
+      state: Drying
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.dishwasher_status
+      option: Running
+  id: 9e2bec4e9fb046bdbafade7e165c1bfe
+- alias: Set dishwasher drying when power drops
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.switch_dishwasher_watts
+    below: 10
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: input_select.dishwasher_status
+      state: Running
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.dishwasher_status
+      option: Drying
+  id: b63f1495a991448a927f182dedb7bad0
+- alias: Set dishwasher clean
+  trigger:
+  - platform: state
+    entity_id: input_select.dishwasher_status
+    to: Drying
+    for:
+      minutes: 15
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: input_select.dishwasher_status
+      state: Drying
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.dishwasher_status
+      option: Clean
+  id: 0fc21db223dd445ab141708edbad7008
+- alias: Set Dishwasher dirty when power off
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.switch_dishwasher_watts
+    below: 1
+  condition:
+    condition: and
+    conditions:
+    - condition: numeric_state
+      entity_id: sensor.switch_dishwasher_watts
+      below: 1
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: input_select.dishwasher_status
+        state: Clean
+      - condition: state
+        entity_id: input_select.dishwasher_status
+        state: Drying
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.dishwasher_status
+      option: Dirty
+  id: d3114e0bc9c14567a60856e2dc5e5d43
+- id: washing_machine_switchedoff
+  alias: Washing Machine - Change State Switched Off
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.washing_machine_watts
+    below: 0.4
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.state_washing_machine
+      option: Switched Off
+- id: washing_machine_powereddown
+  alias: Washing Machine - Change State Powered Down
+  trigger:
+  - platform: state
+    entity_id: sensor.washing_machine_watts
+    to: 'on'
+  - platform: numeric_state
+    entity_id: sensor.washing_machine_watts
+    below: '1'
+    for: 00:01:00
+  condition:
+  - condition: state
+    entity_id: sensor.washing_machine_watts
+    state: 'on'
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.state_washing_machine
+      option: Powered Down
+  mode: single
+- id: washing_machine_idle
+  alias: Washing machine - change state idle
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.washing_machine_watts
+    above: 0.2
+    below: 1
+    for: 00:01:00
+  condition:
+  - condition: state
+    entity_id: sensor.washing_machine_watts
+    state: 'on'
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.state_washing_machine
+      option: Idle
+- id: washing_machine_rinsespin
+  alias: Washing Machine - Change State Rinse Spin
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.washing_machine_watts
+    above: 10
+    below: 550
+    for: 00:01:00
+  condition:
+  - condition: state
+    entity_id: sensor.washing_machine_watts
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.state_washing_machine
+      state: Powered Down
+    - condition: state
+      entity_id: input_select.state_washing_machine
+      state: Idle
+    - condition: state
+      entity_id: input_select.state_washing_machine
+      state: Wash
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.state_washing_machine
+      option: Rinse / Spin
+- id: washing_machine_washing
+  alias: Washing machine - change state wash
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.washing_machine_watts
+    above: '300'
+    for: 00:01:00
+  condition:
+  - condition: state
+    entity_id: sensor.washing_machine_watts
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.state_washing_machine
+      state: Powered Down
+    - condition: state
+      entity_id: input_select.state_washing_machine
+      state: Idle
+    - condition: state
+      entity_id: input_select.state_washing_machine
+      state: Rinse / Spin
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.state_washing_machine
+      option: Wash
+  mode: single

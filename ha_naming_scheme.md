@@ -2,14 +2,19 @@
 naming is hard lets try just try make it consistent and we can improve it later...
 - <device><room><locatiion><(function)><number>
 
-## device
+## device (auto created)
+- sensor.
 - binary.sensor
-- 
+- light.
+- switch.
+
 ## room 
--  kitchen
+- kitchen
+- living_room
 ## location
-- window x
+- window
 - 
 ## function (if required, as most ofthen this is detected)
-- battery, tamper
+- battery, tamper, contact
 ## number - two digit number, starting 01 through 99  (always use leading zero where needed)
+- 01 02....

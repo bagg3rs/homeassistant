@@ -58,8 +58,9 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 switch: !include switch.yaml
 sensor: !include sensors.yaml
+input_select: !include input_select.yaml
 
-#Broadlink RM Pro infra red https://www.home-assistant.io/integrations/broadlink/
+# Broadlink RM Pro infra red https://www.home-assistant.io/integrations/broadlink/
 remote:
   - platform: broadlink
     host: !secret broadlink_hostip
@@ -138,12 +139,12 @@ binary_sensor:
 # Media Players
 ############################################################
 media_player:
-  #Sony TV
+  # Sony TV
   - platform: braviatv
     host: !secret ip_vlan100_166
     name: Sony TV Bedroom
 
-  #VirginTV
+  # VirginTV
   - platform: virgintivo
     default_is_show: false
     #show_packages: Free-to-air,Player,Mix,Fun,Full House,Premium,Pay-per-view
@@ -212,3 +213,18 @@ mqtt:
   will_message:
     topic: "hass/status"
     payload: "offline"
+
+# https://www.home-assistant.io/integrations/utility_meter
+utility_meter:
+  daily_energy_power:
+    source: sensor.power_usage
+    cycle: daily
+  monthly_energy_power:
+    source: sensor.power_usage
+    cycle: monthly
+  daily_energy_gas:
+    source: sensor.gas_usage
+    cycle: daily
+  monthly_energy_gas:
+    source: sensor.gas_usage
+    cycle: monthly

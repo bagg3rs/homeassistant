@@ -1,5 +1,4 @@
 - platform: broadlink
-  host: !secret broadlink_hostip #living_room
   mac: !secret broadlink_mac
   switches:
     # Infra Red Codes learned from BRIO IR 102 railway engine
