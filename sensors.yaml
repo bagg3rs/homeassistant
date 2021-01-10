@@ -1,0 +1,177 @@
+# Energy Monitoring
+# https://www.home-assistant.io/components/sensor.loopenergy/
+- platform: loopenergy
+  electricity:
+    electricity_serial: !secret api_electricity_serial
+    electricity_secret: !secret api_electricity_secret
+  gas:
+    gas_serial: !secret api_gas_serial
+    gas_secret: !secret api_gas_secret
+
+# tplink switches
+# Dryer
+- platform: template
+  sensors:
+    switch_dryer_amps:
+      friendly_name_template: "{{ states.switch.dryer.name}} Current"
+      value_template: '{{ states.switch.dryer.attributes["current_a"] | float }}'
+      unit_of_measurement: "A"
+    switch_dryer_watts:
+      friendly_name_template: "{{ states.switch.dryer.name}} Current Consumption"
+      value_template: '{{ states.switch.dryer.attributes["current_power_w"] | float }}'
+      unit_of_measurement: "W"
+    switch_dryer_total_kwh:
+      friendly_name_template: "{{ states.switch.dryer.name}} Total Consumption"
+      value_template: '{{ states.switch.dryer.attributes["total_energy_kwh"] | float }}'
+      unit_of_measurement: "kWh"
+    switch_dryer_volts:
+      friendly_name_template: "{{ states.switch.dryer.name}} Voltage"
+      value_template: '{{ states.switch.dryer.attributes["voltage"] | float }}'
+      unit_of_measurement: "V"
+    switch_dryer_today_kwh:
+      friendly_name_template: "{{ states.switch.dryer.name}} Today's Consumption"
+      value_template: '{{ states.switch.dryer.attributes["today_energy_kwh"] | float }}'
+      unit_of_measurement: "kWh"
+# Dishwasher
+- platform: template
+  sensors:
+    switch_dishwasher_amps:
+      friendly_name_template: "{{ states.switch.dishwasher.name}} Current"
+      value_template: '{{ states.switch.dishwasher.attributes["current_a"] | float }}'
+      unit_of_measurement: "A"
+    switch_dishwasher_watts:
+      friendly_name_template: "{{ states.switch.dishwasher.name}} Current Consumption"
+      value_template: '{{ states.switch.dishwasher.attributes["current_power_w"] | float }}'
+      unit_of_measurement: "W"
+    switch_dishwasher_total_kwh:
+      friendly_name_template: "{{ states.switch.dishwasher.name}} Total Consumption"
+      value_template: '{{ states.switch.dishwasher.attributes["total_energy_kwh"] | float }}'
+      unit_of_measurement: "kWh"
+    switch_dishwasher_volts:
+      friendly_name_template: "{{ states.switch.dishwasher.name}} Voltage"
+      value_template: '{{ states.switch.dishwasher.attributes["voltage"] | float }}'
+      unit_of_measurement: "V"
+    switch_dishwasher_today_kwh:
+      friendly_name_template: "{{ states.switch.dishwasher.name}} Today's Consumption"
+      value_template: '{{ states.switch.dishwasher.attributes["today_energy_kwh"] | float }}'
+      unit_of_measurement: "kWh"
+# unRAID
+- platform: template
+  sensors:
+    switch_unraid_amps:
+      friendly_name_template: "{{ states.switch.unraid.name}} Current"
+      value_template: '{{ states.switch.unraid.attributes["current_a"] | float }}'
+      unit_of_measurement: "A"
+    switch_unraid_watts:
+      friendly_name_template: "{{ states.switch.unraid.name}} Current Consumption"
+      value_template: '{{ states.switch.unraid.attributes["current_power_w"] | float }}'
+      unit_of_measurement: "W"
+    switch_unraid_total_kwh:
+      friendly_name_template: "{{ states.switch.unraid.name}} Total Consumption"
+      value_template: '{{ states.switch.unraid.attributes["total_energy_kwh"] | float }}'
+      unit_of_measurement: "kWh"
+    switch_unraid_volts:
+      friendly_name_template: "{{ states.switch.unraid.name}} Voltage"
+      value_template: '{{ states.switch.unraid.attributes["voltage"] | float }}'
+      unit_of_measurement: "V"
+    switch_unraid_today_kwh:
+      friendly_name_template: "{{ states.switch.unraid.name}} Today's Consumption"
+      value_template: '{{ states.switch.unraid.attributes["today_energy_kwh"] | float }}'
+      unit_of_measurement: "kWh"
+
+# Washing machine is idle
+- platform: template
+  sensors:
+    washer_idle:
+      friendly_name: "Washing machine idle < 1.5W"
+      value_template: "{{states.sensor.washing_machine_watts.state | float < 1.5}}"
+      icon_template: mdi:washing-machine-alert
+# Washing machine is off
+- platform: template
+  sensors:
+    washer_w_off:
+      friendly_name: "Washing machine off < 0.2W"
+      value_template: "{{states.sensor.washing_machine_watts.state | float < 0.1}}"
+      icon_template: mdi:washing-machine-off
+
+# Fridge possibly making ice
+- platform: template
+  sensors:
+    fridge_makingice:
+      friendly_name: "Fridge freezer making ice"
+      value_template: "{{states.sensor.fridge_watts.state | float > 120}}"
+      icon_template: mdi:delete-variant
+
+# - platform: snmp
+#   name: "eth0 internet"
+#   host: !secret ip_vlan100_254
+#   baseoid: 1.3.6.1.2.1.31.1.1.1.10.4
+#   community: "public"
+#   version: "2c"
+#   scan_interval: 10
+# - platform: snmp
+#   name: "eth5 uplink"
+#   host: !secret ip_vlan100_254
+#   baseoid: 1.3.6.1.2.1.31.1.1.1.10.9
+#   community: "public"
+#   version: "2c"
+#   scan_interval: 10
+# - platform: template
+#   sensors:
+#     sensor_eth0_internet_download:
+#       friendly_name: "Internet download"
+#       unit_of_measurement: "MB/s"
+#       value_template: "{{ state_attr('binary_sensor.edgeos_firewall_interface_eth0', 'MBytes (Received)') }}"
+# - platform: template
+#   sensors:
+#     sensor_eth0_internet_upload:
+#       friendly_name: "Internet upload"
+#       unit_of_measurement: "MB/s"
+#       value_template: "{{ state_attr('binary_sensor.edgeos_firewall_interface_eth0', 'MBps (Sent)') }}"
+# - platform: derivative
+#   source: sensor.erx_wan_in
+#   unit_time: s
+#   unit: B
+#   name: erx_wan_in_derivative
+# - platform: template
+#   sensors:
+#     erx_wan_in_mbps:
+#       value_template:  "{{ (states('sensor.erx_wan_in_derivative')|float*8/1000000)|round(2) }}"
+#       unit_of_measurement: 'Mbps'
+#       friendly_name: Internet in Dev
+# Zwift
+- platform: zwift
+  username: !secret my_zwift_username
+  password: !secret my_zwift_password
+  # players:
+  #   - !secret my_friends_zwift_player_id
+
+- platform: cryptoinfo
+  cryptocurrency_name: "ethereum" #(default = "bitcoin")
+  currency_name: "eur" #(default = "usd")
+  multiplier: 1 #(default = 1) the currency value multiplied by this number
+  update_frequency: 15 #(default = 60) number of minutes to refresh data of the sensor
+
+- platform: cryptoinfo
+  cryptocurrency_name: "bitcoin" #(default = "bitcoin")
+  currency_name: "usd" #(default = "usd")
+  multiplier: 1 #(default = 1) the currency value multiplied by this number
+  update_frequency: 15 #(default = 60) number of minutes to refresh data of the sensor
+
+- platform: darksky
+  api_key: !secret api_key_darksky
+  forecast:
+    - 0
+  hourly_forecast:
+    - 0
+    - 1
+  monitored_conditions:
+    - summary
+    - icon
+    - temperature
+
+# Sensor for monitoring the bridge state
+- platform: mqtt
+  name: Zigbee2mqtt Bridge state
+  state_topic: "zigbee2mqtt/bridge/state"
+  icon: mdi:router-wireless

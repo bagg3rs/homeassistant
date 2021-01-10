@@ -1,0 +1,20 @@
+state_dishwasher:
+  name: Dishwasher status
+  options:
+    - Dirty
+    - Running
+    - Drying
+    - Clean
+  initial: Dirty
+  icon: mdi:dishwasher
+
+state_washing_machine:
+  name: Washing machine status
+  options:
+    - Switched Off
+    - Powered Down
+    - Idle
+    - Rinse / Spin
+    - Wash
+  initial: Idle
+  icon: mdi:washing-machine
