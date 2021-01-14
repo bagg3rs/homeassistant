@@ -216,15 +216,84 @@ mqtt:
 
 # https://www.home-assistant.io/integrations/utility_meter
 utility_meter:
+  hourly_energy_power: #Electricity
+    source: sensor.power_usage
+    cycle: hourly
   daily_energy_power:
     source: sensor.power_usage
     cycle: daily
   monthly_energy_power:
     source: sensor.power_usage
     cycle: monthly
+  hourly_energy_gas: #Gas
+    source: sensor.gas_usage
+    cycle: hourly
   daily_energy_gas:
     source: sensor.gas_usage
     cycle: daily
   monthly_energy_gas:
     source: sensor.gas_usage
+    cycle: monthly
+  # Appliances
+  daily_living_room_media01: #left hand socket
+    source: sensor.living_room_media_sw01_watts
+    cycle: daily
+  monthly_living_room_media01:
+    source: sensor.living_room_media_sw01_watts
+    cycle: monthly
+
+  monthly_living_room_media02: #right hand socket
+    source: sensor.living_room_media_sw02_watts
+    cycle: monthly
+  daily_living_room_media02:
+    source: sensor.living_room_media_sw02_watts
+    cycle: daily
+
+  daily_kettle: #kettle
+    source: sensor.kettle_w
+    cycle: daily
+  monthly_kettle:
+    source: sensor.kettle_w
+    cycle: monthly
+
+  daily_espresso: #espresso
+    source: sensor.espresso_machine_watts
+    cycle: daily
+  monthly_espresso:
+    source: sensor.espresso_machine_watts
+    cycle: monthly
+
+  daily_dryer: #dryer
+    source: sensor.switch_dryer_watts
+    cycle: daily
+  monthly_dryer:
+    source: sensor.switch_dryer_watts
+    cycle: monthly
+
+  daily_fridge: #fridge
+    source: sensor.fridge_watts
+    cycle: daily
+  monthly_fridge:
+    source: sensor.fridge_watts
+    cycle: monthly
+
+  daily_washing_machine: #Washing machine
+    source: sensor.washing_machine_watts
+    cycle: daily
+  monthly_washing_machine:
+    source: sensor.washing_machine_watts
+    cycle: monthly
+
+  daily_dishwasher: #Dishwasher
+    source: sensor.switch_dishwasher_watts
+    cycle: daily
+  monthly_dishwasher:
+    source: sensor.switch_dishwasher_watts
+    cycle: monthly
+
+  daily_unraid: #unraid
+    source: sensor.switch_unraid_watts
+    cycle: daily
+  monthly_unraid:
+    source: sensor.switch_unraid_watts
     cycle: monthly

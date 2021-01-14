@@ -9,13 +9,15 @@
   - service: script.create_all_light_group
     data: {}
   mode: single
-- alias: Set dishwasher active when power detected
+- id: 9e2bec4e9fb046bdbafade7e165c1bfe
+  alias: Set dishwasher active when power detected
   trigger:
   - platform: numeric_state
     entity_id: sensor.switch_dishwasher_watts
-    above: 10
+    above: '10'
+    below: '10000'
   condition:
-    condition: or
+  - condition: or
     conditions:
     - condition: state
       entity_id: input_select.dishwasher_status
@@ -31,7 +33,7 @@
     data:
       entity_id: input_select.dishwasher_status
       option: Running
-  id: 9e2bec4e9fb046bdbafade7e165c1bfe
+  mode: single
 - alias: Set dishwasher drying when power drops
   trigger:
   - platform: numeric_state
